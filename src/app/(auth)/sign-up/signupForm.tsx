@@ -8,10 +8,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/src/lib/auth-client";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Card, CardTitle, CardHeader, CardFooter, CardContent, CardDescription } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardFooter,
+  CardDescription,
+  CardTitle
+} from "@/src/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/src/components/ui/form";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
 
 const SignUpSchema = z
     .object({

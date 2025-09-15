@@ -1,6 +1,6 @@
 "use client"
 
-import {z} from "zod";
+import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -9,18 +9,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Github, Mail } from "lucide-react";
 import { authClient } from "@/src/lib/auth-client";
-import { Card, CardTitle, CardHeader, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form";
+  Card,
+  CardTitle,
+  CardHeader,
+  CardDescription,
+  CardContent,
+  CardFooter
+} from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Checkbox } from "@/src/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/src/components/ui/form";
 
 
 const signInSchema = z.object({
