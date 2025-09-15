@@ -1,0 +1,9 @@
+@layer utilities {
+  .font-satoshi {
+    font-family: var(--font-satoshi);
+  }
+  
+  .font-instrument-serif {
+    font-family: var(--font-instrument-serif);
+  }
+}
