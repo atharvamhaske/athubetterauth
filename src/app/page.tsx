@@ -22,12 +22,27 @@ export default function Home() {
             </p>
             <Link
               href="/sign-in"
-              className="self-end inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-1 text-xs sm:text-sm bg-primary/20 text-primary font-satoshi whitespace-nowrap rounded-md hover:bg-primary/30 transition-colors duration-200 shadow-md sm:shadow-lg hover:shadow-xl"
+              className="self-end inline-flex items-center gap-1 px-2 py-0.5 sm:px-4 sm:py-1 text-xs sm:text-sm bg-primary/20 text-primary font-satoshi whitespace-nowrap rounded-md hover:bg-primary/30 transition-colors duration-200 shadow-md sm:shadow-lg hover:shadow-xl"
             >
               Sign In
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="w-3 h-3 sm:w-4 sm:h-3"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
             </Link>
           </div>
-          <div className="p-1.5 sm:p-2 mt-3 sm:mt-4 border border-dashed hover:border-primary/50 bg-card flex items-center justify-between transition-all duration-200 delay-75">
+          <div className="p-1.5 sm:px-2  mt-3 sm:mt-4 border border-dashed hover:border-primary/50 bg-card flex items-center justify-between transition-all duration-200 delay-75">
             <pre className="font-mono text-[9px] xs:text-[10px] sm:text-xs bg-linear-to-r from-muted-foreground to-foreground bg-clip-text text-transparent overflow-hidden text-ellipsis whitespace-nowrap max-w-[85%]">
               git clone {siteConfig.socials.github}
             </pre>
