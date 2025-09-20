@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { siteConfig } from "../config/site";
 import { CopyButton } from "../components/copy-button";
 
@@ -12,14 +13,27 @@ export default function Home() {
   return (
     <div className="w-full max-w-4xl mx-auto my-4 sm:my-8 md:mt-12 min-h-[80vh] border border-dashed border-black py-2 px-3 sm:px-4 overflow-y-auto">
       <div className="flex flex-col w-full">
-        <div className="text-center mb-4 sm:mb-6">
-          <h2 className="font-instrument-serif text-3xl sm:text-4xl !leading-[0.9]">BetterAuth Boilerplate<br  /> <span className="text-sm sm:text-xl text-black "> ~by Atharva Mhaske</span></h2>
-          <p className="md:text-xl text-xs font-satoshi text-accent-foreground text-wrap md:text-left">This is Modern Betterauth boilerplate template with tech stack of ofc Better-Auth, Prisma ORM, PostgreSQL, Tailwind v4 & ShadCN UI for secure web development, Customize according to your own used. Truly an open source, open for contributions.</p>
-          <div className="p-2 mt-4 border border-dashed hover:border-primary/50 bg-card text-xs md:text-sm flex items-center justify-between transition-all duration-200 delay-75">
-            <pre className="font-mono bg-linear-to-r from-muted-foreground to-foreground bg-clip-text text-transparent">
+        <div className="mb-4 sm:mb-6 text-start ">
+          <h2 className="font-instrument-serif text-3xl sm:text-4xl !leading-[0.7]">BetterAuth Boilerplate<br  /> <span className="text-sm sm:text-md text-black "> ~by atharva mhaske</span></h2>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-2">
+            <p className="md:text-lg text-xs font-satoshi text-accent-foreground text-wrap md:text-left">
+              This is Modern Betterauth boilerplate template with tech stack of ofc Better-Auth, Prisma ORM, PostgreSQL, Tailwind v4 & ShadCN UI for secure web development, Customize according to your own used.
+              <br /> Truly an open source, open for contributions.
+            </p>
+            <Link
+              href="/sign-in"
+              className="self-end inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-1 text-xs sm:text-sm bg-primary/20 text-primary font-satoshi whitespace-nowrap rounded-md hover:bg-primary/30 transition-colors duration-200 shadow-md sm:shadow-lg hover:shadow-xl"
+            >
+              Sign In
+            </Link>
+          </div>
+          <div className="p-1.5 sm:p-2 mt-3 sm:mt-4 border border-dashed hover:border-primary/50 bg-card flex items-center justify-between transition-all duration-200 delay-75">
+            <pre className="font-mono text-[9px] xs:text-[10px] sm:text-xs bg-linear-to-r from-muted-foreground to-foreground bg-clip-text text-transparent overflow-hidden text-ellipsis whitespace-nowrap max-w-[85%]">
               git clone {siteConfig.socials.github}
             </pre>
-            <CopyButton text={`git clone ${siteConfig.socials.github}`} />
+            <span className="flex-shrink-0">
+              <CopyButton text={`git clone ${siteConfig.socials.github}`} />
+            </span>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 w-full">
