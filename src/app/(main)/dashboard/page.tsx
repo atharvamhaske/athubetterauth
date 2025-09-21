@@ -13,11 +13,11 @@ export default async function Dashboard() {
     const session = await getServerSession();
     const user = session?.user
 
-    // if(!user) unauthorized()
+    if(!user) unauthorized()
 
         return(
-          <div className="mx-auto w-full max-w-3xl px-1 py-2 border-2 border-dashed border-black/40 h-screen">
-            {/* <ProfileInformation user={user} /> */}
+          <div className="mx-auto w-full max-w-6xl px-1 py-2 border border-dashed border-black/40 h-screen">
+            <ProfileInformation user={user} />
           </div>
         )
 }
