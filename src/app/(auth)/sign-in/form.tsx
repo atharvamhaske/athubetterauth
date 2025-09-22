@@ -7,7 +7,8 @@ import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { Github, Mail } from "lucide-react";
+import { Mail, Github } from "lucide-react";
+import { Badge } from "@/src/components/ui/badge";
 import { authClient } from "@/src/lib/auth-client";
 import {
   Card,
@@ -45,6 +46,8 @@ export default function SignInForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get("redirect");
+    // Get last login method
+    const lastMethod = authClient.getLastUsedLoginMethod()
 
     const form = useForm<SignInValues>({
         resolver: zodResolver(signInSchema),
@@ -199,24 +202,30 @@ export default function SignInForm() {
             <div className="flex w-full mx-auto flex-col items-center justify-between gap-2">
               <Button
                 type="button"
-                variant="outline"
+                variant={lastMethod === "google" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
                 disabled={isSubmitting}
                 onClick={() => handleSocialSignIn("google")}
               >
                 <Mail className="w-4 h-4 mr-2" />
                 <span>Sign in with Google</span>
+                {lastMethod === "google" && (
+                  <Badge className="ml-2" variant="secondary">Last used</Badge>
+                )}
               </Button>
 
               <Button
                 type="button"
-                variant="outline"
+                variant={lastMethod === "github" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
                 disabled={isSubmitting}
                 onClick={() => handleSocialSignIn("github")}
               >
                 <Github className="w-4 h-4 mr-2" />
                 <span>Sign in with Github</span>
+                {lastMethod === "github" && (
+                  <Badge className="ml-2" variant="secondary">Last used</Badge>
+                )}
               </Button>
             </div>
           </form>

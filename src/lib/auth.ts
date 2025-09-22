@@ -4,6 +4,7 @@ import prisma from '@/src/lib/prisma'
 import { sendEmail } from './email'
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { passwordSchema } from './validations';
+import { lastLoginMethod } from "better-auth/plugins"
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -59,6 +60,9 @@ export const auth = betterAuth({
       }
     }
   },
+  plugins: [
+    lastLoginMethod()
+  ],
   hook: {
     before: createAuthMiddleware(async (ctx) => {
       if (

@@ -3,7 +3,7 @@ import { User } from "@/src/lib/auth";
 import { getServerSession } from "@/src/lib/get-session";
 import { Metadata } from "next";
 import { unauthorized } from "next/navigation";
-
+import { SignOutButton } from "@/src/components/auth/sign-out-button";
 
 export const metadata: Metadata ={
     title: "Dashboard"
@@ -26,27 +26,53 @@ interface ProfileInformationProps {
     user: User
 }
 
+
+
 function ProfileInformation({user}: ProfileInformationProps) {
     return (
-        <Card>
+        <div className="flex flex-col justify-center items-center mx-auto">
+            <div className="flex w-full justify-end ">
+                <SignOutButton />
+            </div>
+            <Card className="mt-20">
              <CardHeader>
-                <CardTitle className="font-instrument-serif font-light justify-center text-4xl text-center flex items-center ">
-                  Welcome You are Authenticated !!
+                <CardTitle className="font-instrument-serif font-light justify-center md:text-4xl text-xl text-center flex items-center ">
+                  Welcome, You are Authenticated!
                 </CardTitle>
-                <CardDescription className="font-satoshi text-lg hover:text-foreground">This is protected route and dashboard is only available to seen for authenticated user</CardDescription>
+                <CardDescription className="font-satoshi md:text-lg text-md hover:text-foreground text-center">This is protected dashboard only for users who are logged in.</CardDescription>
              </CardHeader>
              <CardContent>
-                <div className="text-center font-satoshi text-md">This is the card where yout will see basic details as who logged in</div>
+                <div className="text-center font-satoshi md:text-md text-sm">
+                  This is the card where you will see basic details as who logged in so you're,{" "}
+                  <span className="relative inline-block">
+                    <span className="relative z-10 font-bold px-1 text-amber-900">
+                      {user.name}
+                    </span>
+                    <span className="absolute -inset-0.5 bg-amber-200 skew-x-12 transform " aria-hidden="true"></span>
+                  </span>
+                  {" "}right?
+                </div>
+                    <div className="text-sm text-center md:text-md font-satoshi py-2">
+                        your mail is{" "}
+                        <span className="relative inline-block">
+                            <span className="relative z-10 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent font-bold px-1">
+                                {user.email}
+                            </span>
+                            <span className="absolute -inset-1 -skew-y-3 bg-primary/20 rounded-lg" aria-hidden="true"></span>
+                        </span>
+                    </div>
              </CardContent>
         </Card>
+        </div>
+        
     )
 }
 
-function EmailVerificationAlert() {
-    return (
-        <div className="">
-            {/* 
-            here we will add a line please verify your email address to see and will add one button with link tag redirect to /verify-email */}
-        </div>
-    )
-}
+// function EmailVerificationAlert() {
+//     return (
+//         <div className="">
+//             {/* 
+//             here we will add a line please verify your email address to see and will add one button with link tag redirect to /verify-email */}
+//         </div>
+//     )
+// }
