@@ -7,6 +7,7 @@ import { passwordSchema } from './validations';
 import { lastLoginMethod } from "better-auth/plugins"
 
 export const auth = betterAuth({
+  secret: process.env.AUTH_SECRET || "CHANGE_THIS_SECRET_IN_PRODUCTION",
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
