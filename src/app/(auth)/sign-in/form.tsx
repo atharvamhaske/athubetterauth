@@ -43,6 +43,7 @@ type SignInValues = z.infer<typeof signInSchema>
 
 export default function SignInForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSocialSubmitting, setIsSocialSubmitting] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get("redirect");
@@ -89,7 +90,7 @@ export default function SignInForm() {
 
     async function handleSocialSignIn(provider: "google" | "github") {
         form.clearErrors();
-        setIsSubmitting(true);
+        setIsSocialSubmitting(true);
         
         try {
             const { error: apiError } = await authClient.signIn.social({
@@ -108,7 +109,7 @@ export default function SignInForm() {
                 message: "Social sign-in error. Please try again." 
             });
         } finally {
-            setIsSubmitting(false);
+            setIsSocialSubmitting(false);
         }
     }
 
@@ -204,12 +205,12 @@ export default function SignInForm() {
                 type="button"
                 variant={lastMethod === "google" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
-                disabled={isSubmitting}
+                disabled={isSocialSubmitting}
                 onClick={() => handleSocialSignIn("google")}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                <span>Sign in with Google</span>
-                {lastMethod === "google" && (
+                <span>{isSocialSubmitting && lastMethod === "google" ? "Signing in..." : "Sign in with Google"}</span>
+                {lastMethod === "google" && !isSocialSubmitting && (
                   <Badge className="ml-2" variant="secondary">Last used</Badge>
                 )}
               </Button>
@@ -218,12 +219,12 @@ export default function SignInForm() {
                 type="button"
                 variant={lastMethod === "github" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
-                disabled={isSubmitting}
+                disabled={isSocialSubmitting}
                 onClick={() => handleSocialSignIn("github")}
               >
                 <Github className="w-4 h-4 mr-2" />
-                <span>Sign in with Github</span>
-                {lastMethod === "github" && (
+                <span>{isSocialSubmitting && lastMethod === "github" ? "Signing in..." : "Sign in with Github"}</span>
+                {lastMethod === "github" && !isSocialSubmitting && (
                   <Badge className="ml-2" variant="secondary">Last used</Badge>
                 )}
               </Button>
