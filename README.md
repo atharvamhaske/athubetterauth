@@ -30,7 +30,10 @@ cd athubetterauth
 pnpm install
 
 # Set up your environment variables
-cp .env.example .env.local
+# Create a .env.local file with the following content:
+# DATABASE_URL="postgresql://postgres:password@localhost:5432/betterauth?schema=public"
+# AUTH_SECRET="your-auth-secret-key-change-this-in-production"
+# AUTH_TRUST_HOST=true
 
 # Start the development server
 pnpm dev
@@ -43,6 +46,34 @@ pnpm dev
 - Type-safe database operations with Prisma
 - Customizable UI components with ShadCN
 - Easy to extend and customize
+
+## Environment Variables
+
+This project requires the following environment variables:
+
+```
+# Database connection
+DATABASE_URL="postgresql://postgres:password@localhost:5432/betterauth?schema=public"
+
+# Auth configuration
+AUTH_SECRET="your-auth-secret-key-change-this-in-production"
+AUTH_TRUST_HOST=true
+
+# Optional: Email configuration for verification
+EMAIL_SERVER_HOST=smtp.example.com
+EMAIL_SERVER_PORT=587
+EMAIL_SERVER_USER=user@example.com
+EMAIL_SERVER_PASSWORD=password
+EMAIL_FROM=noreply@example.com
+
+# Optional: OAuth providers
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+```
+
+Create a `.env.local` file in the root directory with these variables before starting the application.
 
 ## Contributing
 
