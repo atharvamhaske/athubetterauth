@@ -90,7 +90,7 @@ export function AuthCard({
         <p className="text-sm text-muted-foreground">
           {mode === "sign-in" ? (
             <>
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/sign-up" className="text-primary font-medium hover:underline">
                 Sign up
               </Link>

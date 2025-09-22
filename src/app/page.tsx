@@ -61,7 +61,7 @@ export default function Home() {
             <div className="border border-neutral-300 h-[8rem] sm:h-[10rem] flex flex-col justify-end p-2 sm:px-3">
               <h1 className="text-lg sm:text-xl font-satoshi font-semibold">Postgres DB</h1>
               <p className="text-sm sm:text-md text-muted-foreground font-satoshi">
-                The Postgres database which is easy to use ORMs like Prisma, that's it lol. What else you need?</p>
+                The Postgres database which is easy to use ORMs like Prisma, that&apos;s it lol. What else you need?</p>
             </div>
           </div>
           <div className="flex flex-col justify-between gap-3 sm:gap-4">

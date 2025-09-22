@@ -43,7 +43,7 @@ function ProfileInformation({user}: ProfileInformationProps) {
              </CardHeader>
              <CardContent>
                 <div className="text-center font-satoshi md:text-md text-sm">
-                  This is the card where you will see basic details as who logged in so you're,{" "}
+                  This is the card where you will see basic details as who logged in so you&apos;re,{" "}
                   <span className="relative inline-block">
                     <span className="relative z-10 font-bold px-1 text-amber-900">
                       {user.name}

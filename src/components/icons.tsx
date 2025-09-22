@@ -4,7 +4,6 @@ import { LucideProps } from "lucide-react"
 import {
   Github,
   Mail,
-  MailIcon,
   Loader2,
   User,
   LogOut,
