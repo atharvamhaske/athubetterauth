@@ -60,11 +60,8 @@ AUTH_SECRET="your-auth-secret-key-change-this-in-production"
 AUTH_TRUST_HOST=true
 
 # Optional: Email configuration for verification
-EMAIL_SERVER_HOST=smtp.example.com
-EMAIL_SERVER_PORT=587
-EMAIL_SERVER_USER=user@example.com
-EMAIL_SERVER_PASSWORD=password
-EMAIL_FROM=noreply@example.com
+# Using Resend API (https://resend.com)
+RESEND_API_KEY=your-resend-api-key
 
 # Optional: OAuth providers
 GITHUB_CLIENT_ID=your-github-client-id
