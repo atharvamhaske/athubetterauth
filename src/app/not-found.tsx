@@ -30,14 +30,14 @@ export default function NotFound() {
             </div>
             <div className="flex items-center space-x-2">
               <div className="flex justify-between space-y-2 items-center">
-                <span className="text-black">umm page you're trying is not made by my guardian</span>
+                <span className="text-black">umm page you&apos;re trying is not made by my guardian</span>
               </div>
             </div>
           </div>
         </CardContent>
         <CardFooter className="pt-4 border-t border-dashed mt-3">
           <Button variant="default" className="w-full font-satoshi font-semibold " asChild>
-            <Link href="/">take me home deddy, it's late already</Link>
+            <Link href="/">take me home deddy, it&apos;s late already</Link>
           </Button>
         </CardFooter>
       </Card>

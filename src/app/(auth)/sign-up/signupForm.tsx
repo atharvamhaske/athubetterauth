@@ -37,7 +37,7 @@ const SignUpSchema = z
             .min(1, { message: "please enter valid password" })
     })
     .refine((data) => data.password === data.passwordConfirmation, {
-        message: "password doesn't match",
+        message: "password doesn&apos;t match",
         path: ["passwordConfirmation"]
     });
 
