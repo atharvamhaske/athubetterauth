@@ -8,7 +8,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Mail, Github } from "lucide-react";
-import { Badge } from "@/src/components/ui/badge";
+import { Badge } from "@/src/components/ui/badge"
 import { authClient } from "@/src/lib/auth-client";
 import {
   Card,
@@ -211,7 +211,7 @@ export default function SignInForm() {
                 <Mail className="w-4 h-4 mr-2" />
                 <span>{isSocialSubmitting && lastMethod === "google" ? "Signing in..." : "Sign in with Google"}</span>
                 {lastMethod === "google" && !isSocialSubmitting && (
-                  <Badge className="ml-2" variant="secondary">Last used</Badge>
+                  <Badge className="font-satoshi" variant="secondary">Last used</Badge>
                 )}
               </Button>
 
@@ -225,7 +225,7 @@ export default function SignInForm() {
                 <Github className="w-4 h-4 mr-2" />
                 <span>{isSocialSubmitting && lastMethod === "github" ? "Signing in..." : "Sign in with Github"}</span>
                 {lastMethod === "github" && !isSocialSubmitting && (
-                  <Badge className="ml-2" variant="secondary">Last used</Badge>
+                  <Badge className="font-satoshi" variant="secondary">Last used</Badge>
                 )}
               </Button>
             </div>

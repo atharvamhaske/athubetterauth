@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src
 import { User } from "@/src/lib/auth";
 import { getServerSession } from "@/src/lib/get-session";
 import { Metadata } from "next";
-import { unauthorized } from "next/navigation";
+import { redirect } from "next/navigation";
 import { SignOutButton } from "@/src/components/auth/sign-out-button";
 
 export const metadata: Metadata ={
@@ -13,7 +13,7 @@ export default async function Dashboard() {
     const session = await getServerSession();
     const user = session?.user
 
-    if(!user) unauthorized()
+    if(!user) redirect("/sign-in")
 
         return(
           <div className="mx-auto w-full max-w-6xl px-1 py-2 border border-dashed border-black/40 h-screen">
