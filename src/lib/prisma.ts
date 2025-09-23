@@ -1,35 +1,43 @@
 import { PrismaClient } from "@/src/generated/prisma";
-import { withAccelerate } from "@prisma/extension-accelerate";
 
-
+// For global singleton
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 
-
-if (process.env.NODE_ENV === "production") {
-  // If DATABASE_URL is missing or not in the correct format for Prisma Accelerate
-  if (!process.env.DATABASE_URL || !process.env.DATABASE_URL.startsWith('prisma://')) {
-    console.warn("Setting up Prisma Accelerate for production");
-    process.env.DATABASE_URL = "prisma://accelerate.prisma-data.net/?api_key=demo";
+// Check for required environment variables
+if (!process.env.DATABASE_URL) {
+  console.warn("DATABASE_URL environment variable is not set");
+  console.warn("Please set DATABASE_URL in your .env file or deployment environment");
+  
+  if (process.env.NODE_ENV === "development") {
+    // For development only, provide a fallback to local PostgreSQL
+    console.warn("Using fallback local PostgreSQL for development");
+    process.env.DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/betterauth";
   }
-} else if (!process.env.DATABASE_URL) {
-  // For development, use SQLite if no database URL is provided
-  console.warn("Using local SQLite database for development");
-  process.env.DATABASE_URL = "file:./dev.db";
 }
 
+// For Neon, we need both DATABASE_URL (pooled connection) and DIRECT_URL (direct connection)
+// DIRECT_URL is used for migrations and schema changes
+if (!process.env.DIRECT_URL && process.env.DATABASE_URL) {
+  // If DATABASE_URL is set but DIRECT_URL isn't, use DATABASE_URL for both
+  console.log("Setting DIRECT_URL to match DATABASE_URL");
+  process.env.DIRECT_URL = process.env.DATABASE_URL;
+}
 
+// Configure logging based on environment
 const prismaOptions: any = {
   log: process.env.NODE_ENV === "development" 
-    ? ['query', 'error', 'warn']
+    ? ['error', 'warn']
     : ['error'],
 };
 
+// Create or reuse Prisma client instance
+const prisma = globalForPrisma.prisma || new PrismaClient(prismaOptions);
 
-const prisma = globalForPrisma.prisma || 
-  new PrismaClient(prismaOptions).$extends(withAccelerate());
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+// Save instance in development to prevent multiple connections
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
 
 export default prisma;
