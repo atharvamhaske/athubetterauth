@@ -18,11 +18,19 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID || "missing-client-id",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "missing-client-secret",
       enabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+      // Add authorized redirect URIs
+      redirectURI: process.env.NODE_ENV === "production" 
+        ? `${process.env.NEXTAUTH_URL}/api/auth/callback/google`
+        : "http://localhost:3000/api/auth/callback/google",
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID || "missing-client-id",
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "missing-client-secret",
       enabled: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
+      // Add authorized redirect URIs
+      redirectURI: process.env.NODE_ENV === "production"
+        ? `${process.env.NEXTAUTH_URL}/api/auth/callback/github`
+        : "http://localhost:3000/api/auth/callback/github",
     }
   },
   emailAndPassword: {

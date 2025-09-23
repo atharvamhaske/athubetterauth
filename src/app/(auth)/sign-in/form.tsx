@@ -43,7 +43,13 @@ type SignInValues = z.infer<typeof signInSchema>
 
 export default function SignInForm() {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSocialSubmitting, setIsSocialSubmitting] = useState(false);
+    const [socialLoading, setSocialLoading] = useState<{
+      google: boolean;
+      github: boolean;
+    }>({
+      google: false,
+      github: false
+    });
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get("redirect");
@@ -90,10 +96,14 @@ export default function SignInForm() {
 
     async function handleSocialSignIn(provider: "google" | "github") {
         form.clearErrors();
-        setIsSocialSubmitting(true);
+        
+        // Set loading state only for the specific provider button
+        setSocialLoading(prev => ({
+          ...prev,
+          [provider]: true
+        }));
         
         try {
-            
             const response = await fetch("/api/auth/providers");
             const availableProviders = await response.json();
             
@@ -102,7 +112,6 @@ export default function SignInForm() {
                 form.setError("root", { 
                     message: `${provider} is not available. Please use email login or contact the administrator.` 
                 });
-                setIsSocialSubmitting(false);
                 return;
             }
             
@@ -112,7 +121,6 @@ export default function SignInForm() {
             });
 
             if(apiError) {
-                
                 console.error(`${provider} sign-in error:`, 
                   typeof apiError === 'object' ? apiError : { message: String(apiError) }
                 );
@@ -138,7 +146,11 @@ export default function SignInForm() {
                 message: `${provider} sign-in error. Please try again or use email login.` 
             });
         } finally {
-            setIsSocialSubmitting(false);
+            // Reset loading state only for the specific provider
+            setSocialLoading(prev => ({
+              ...prev,
+              [provider]: false
+            }));
         }
     }
 
@@ -234,12 +246,12 @@ export default function SignInForm() {
                 type="button"
                 variant={lastMethod === "google" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
-                disabled={isSocialSubmitting}
+                disabled={socialLoading.google}
                 onClick={() => handleSocialSignIn("google")}
               >
                 <Mail className="w-4 h-4 mr-2" />
-                <span>{isSocialSubmitting && lastMethod === "google" ? "Signing in..." : "Sign in with Google"}</span>
-                {lastMethod === "google" && !isSocialSubmitting && (
+                <span>{socialLoading.google ? "Signing in..." : "Sign in with Google"}</span>
+                {lastMethod === "google" && !socialLoading.google && (
                   <Badge className="font-satoshi" variant="secondary">Last used</Badge>
                 )}
               </Button>
@@ -248,12 +260,12 @@ export default function SignInForm() {
                 type="button"
                 variant={lastMethod === "github" ? "default" : "outline"}
                 className="w-full rounded-2xl relative py-2 px-4 flex items-center justify-center"
-                disabled={isSocialSubmitting}
+                disabled={socialLoading.github}
                 onClick={() => handleSocialSignIn("github")}
               >
                 <Github className="w-4 h-4 mr-2" />
-                <span>{isSocialSubmitting && lastMethod === "github" ? "Signing in..." : "Sign in with Github"}</span>
-                {lastMethod === "github" && !isSocialSubmitting && (
+                <span>{socialLoading.github ? "Signing in..." : "Sign in with Github"}</span>
+                {lastMethod === "github" && !socialLoading.github && (
                   <Badge className="font-satoshi" variant="secondary">Last used</Badge>
                 )}
               </Button>
