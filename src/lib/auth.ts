@@ -12,19 +12,18 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
   socialProviders: {
-    // Only enable social providers if credentials are available
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {
-      google: {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      }
-    } : {}),
-    ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET ? {
-      github: {
-        clientId: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET
-      }
-    } : {})
+    // Temporarily disable social providers until properly configured
+    // Comment out the following lines if you want to disable social login completely
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || "missing-client-id",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "missing-client-secret",
+      enabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID || "missing-client-id",
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || "missing-client-secret",
+      enabled: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
+    }
   },
   emailAndPassword: {
     enabled: true,
