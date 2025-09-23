@@ -6,22 +6,35 @@ const globalForPrisma = global as unknown as {
   prisma: PrismaClient;
 };
 
-// Check for DATABASE_URL
-if (!process.env.DATABASE_URL && process.env.NODE_ENV === "production") {
-  console.error("Warning: DATABASE_URL environment variable is not set");
-  // For production, we'll let this error out naturally
-  // For development, you could set a default here if needed
+// Check for DATABASE_URL and provide a demo mode fallback
+if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV === "production") {
+    console.warn("DATABASE_URL not found in production. Using in-memory SQLite for demo purposes.");
+    // Set a fallback SQLite in-memory database for demo purposes
+    process.env.DATABASE_URL = "file::memory:?connection_limit=1";
+  } else {
+    console.warn("DATABASE_URL not found in development. Using local SQLite database.");
+    // Use a local SQLite file for development
+    process.env.DATABASE_URL = "file:./dev.db";
+  }
+}
+
+// Initialize Prisma Client with appropriate options
+let prismaOptions: any = {
+  log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+};
+
+// For demo mode with in-memory SQLite, add special configuration
+if (process.env.DATABASE_URL === "file::memory:?connection_limit=1") {
+  prismaOptions = {
+    ...prismaOptions,
+    // Add any special options for in-memory database if needed
+  };
 }
 
 // Initialize Prisma Client
 const prisma = globalForPrisma.prisma || 
-  new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
-    // In development, you could use a fallback URL if needed
-    // datasources: process.env.NODE_ENV !== "production" && !process.env.DATABASE_URL
-    //   ? { db: { url: "file:./dev.db" } }
-    //   : undefined,
-  }).$extends(withAccelerate());
+  new PrismaClient(prismaOptions).$extends(withAccelerate());
 
 // Set the prisma global object in development
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
