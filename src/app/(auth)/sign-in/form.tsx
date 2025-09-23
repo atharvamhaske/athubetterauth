@@ -93,7 +93,18 @@ export default function SignInForm() {
         setIsSocialSubmitting(true);
         
         try {
-            // Try the social login - if the provider isn't configured, it will fail gracefully
+            
+            const response = await fetch("/api/auth/providers");
+            const availableProviders = await response.json();
+            
+            if (!availableProviders.includes(provider)) {
+                toast.error(`${provider} login is not configured on the server`);
+                form.setError("root", { 
+                    message: `${provider} is not available. Please use email login or contact the administrator.` 
+                });
+                setIsSocialSubmitting(false);
+                return;
+            }
             
             const { error: apiError } = await authClient.signIn.social({
                 provider,
@@ -102,9 +113,18 @@ export default function SignInForm() {
 
             if(apiError) {
                 console.error(`${provider} sign-in error:`, apiError);
-                form.setError("root", { 
-                    message: apiError.message || `${provider} sign-in failed` 
-                });
+                
+                
+                if (apiError.code === "PROVIDER_NOT_FOUND") {
+                    toast.error(`${provider} provider is not properly configured`);
+                    form.setError("root", { 
+                        message: `${provider} login is not available. Please use email login.` 
+                    });
+                } else {
+                    form.setError("root", { 
+                        message: apiError.message || `${provider} sign-in failed` 
+                    });
+                }
             }
         } catch (unexpectedError) {
             console.error(`${provider} sign-in request failed:`, unexpectedError);
