@@ -93,12 +93,15 @@ export default function SignInForm() {
         setIsSocialSubmitting(true);
         
         try {
+            // Try the social login - if the provider isn't configured, it will fail gracefully
+            
             const { error: apiError } = await authClient.signIn.social({
                 provider,
                 callbackURL: redirect ?? "/dashboard"
             });
 
             if(apiError) {
+                console.error(`${provider} sign-in error:`, apiError);
                 form.setError("root", { 
                     message: apiError.message || `${provider} sign-in failed` 
                 });
@@ -106,7 +109,7 @@ export default function SignInForm() {
         } catch (unexpectedError) {
             console.error(`${provider} sign-in request failed:`, unexpectedError);
             form.setError("root", { 
-                message: "Social sign-in error. Please try again." 
+                message: `${provider} sign-in error. Please try again or use email login.` 
             });
         } finally {
             setIsSocialSubmitting(false);
