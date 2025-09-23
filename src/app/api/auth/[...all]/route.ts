@@ -48,29 +48,11 @@ export const POST = async (req: Request) => {
 
 export const GET = async (req: Request) => {
   try {
-    // Log the request URL and path for debugging
-    console.log("Auth API GET request:", {
-      url: req.url,
-      path: new URL(req.url).pathname
-    });
-    
     return await handler.GET(req);
-  } catch (error: any) {
-    // Enhanced error logging
-    console.error("Auth API GET error:", {
-      message: error.message,
-      code: error.code,
-      name: error.name,
-      stack: error.stack,
-    });
-    
-    // Return more specific error information
+  } catch (error) {
+    console.error("Auth API error:", error);
     return NextResponse.json(
-      { 
-        error: "Authentication service error",
-        message: error.message || "Unknown error",
-        code: error.code || "INTERNAL_ERROR"
-      },
+      { error: "Authentication service error" },
       { status: 500 }
     );
   }

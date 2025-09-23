@@ -112,17 +112,23 @@ export default function SignInForm() {
             });
 
             if(apiError) {
-                console.error(`${provider} sign-in error:`, apiError);
                 
+                console.error(`${provider} sign-in error:`, 
+                  typeof apiError === 'object' ? apiError : { message: String(apiError) }
+                );
                 
-                if (apiError.code === "PROVIDER_NOT_FOUND") {
+                // Check if apiError is an object with a code property
+                const errorCode = apiError && typeof apiError === 'object' && apiError.code;
+                const errorMessage = apiError && typeof apiError === 'object' && apiError.message;
+                
+                if (errorCode === "PROVIDER_NOT_FOUND") {
                     toast.error(`${provider} provider is not properly configured`);
                     form.setError("root", { 
                         message: `${provider} login is not available. Please use email login.` 
                     });
                 } else {
                     form.setError("root", { 
-                        message: apiError.message || `${provider} sign-in failed` 
+                        message: errorMessage || `${provider} sign-in failed` 
                     });
                 }
             }
