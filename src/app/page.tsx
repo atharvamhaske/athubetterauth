@@ -24,7 +24,7 @@ export default function Home() {
               href="/sign-in"
               className="self-end inline-flex items-center gap-1 px-2 py-0.5 sm:px-4 sm:py-1 text-xs sm:text-sm bg-primary/20 text-primary font-satoshi whitespace-nowrap rounded-md hover:bg-primary/30 transition-colors duration-200 shadow-md sm:shadow-lg hover:shadow-xl"
             >
-              Sign In
+              Sign Up
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 width="14" 
