@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { satoshi, instrumentSerif } from "./font";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import "./tailwind.css";
 
@@ -28,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${instrumentSerif.variable}`}
       > 
       {children}
-
+      <Analytics />
       </body>
     </html>
   );
