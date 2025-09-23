@@ -63,7 +63,10 @@ AUTH_TRUST_HOST=true
 # Using Resend API (https://resend.com)
 RESEND_API_KEY=your-resend-api-key
 
-# Optional: OAuth providers
+# Required for Vercel deployment with social providers
+NEXTAUTH_URL="https://your-app-url.vercel.app"
+
+# OAuth providers
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
 GOOGLE_CLIENT_ID=your-google-client-id
