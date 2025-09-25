@@ -12,24 +12,23 @@ export const auth = betterAuth({
     provider: 'postgresql',
   }),
   socialProviders: {
-    // Temporarily disable social providers until properly configured
-    // Comment out the following lines if you want to disable social login completely
+    // Configure social providers with proper error handling
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID || "missing-client-id",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "missing-client-secret",
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       enabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
-      // Add authorized redirect URIs
+      // Use consistent redirectURI format
       redirectURI: process.env.NODE_ENV === "production" 
-        ? `${process.env.NEXTAUTH_URL}/api/auth/callback/google`
+        ? `${process.env.NEXTAUTH_URL || ""}/api/auth/callback/google`
         : "http://localhost:3000/api/auth/callback/google",
     },
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID || "missing-client-id",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "missing-client-secret",
+      clientId: process.env.GITHUB_CLIENT_ID || "",
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
       enabled: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
-      // Add authorized redirect URIs
+      // Use consistent redirectURI format
       redirectURI: process.env.NODE_ENV === "production"
-        ? `${process.env.NEXTAUTH_URL}/api/auth/callback/github`
+        ? `${process.env.NEXTAUTH_URL || ""}/api/auth/callback/github`
         : "http://localhost:3000/api/auth/callback/github",
     }
   },

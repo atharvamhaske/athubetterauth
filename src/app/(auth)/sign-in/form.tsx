@@ -103,6 +103,7 @@ export default function SignInForm() {
         }));
         
         try {
+            // First check if the provider is available
             const response = await fetch("/api/auth/providers");
             const availableProviders = await response.json();
             
@@ -114,28 +115,38 @@ export default function SignInForm() {
                 return;
             }
             
-            const { error: apiError } = await authClient.signIn.social({
-                provider,
-                callbackURL: redirect ?? "/dashboard"
-            });
-
-            if(apiError) {
-              
-                const errorCode = apiError && typeof apiError === 'object' && apiError.code;
-                const errorMessage = apiError && typeof apiError === 'object' && apiError.message;
-                
-                if (errorCode === "PROVIDER_NOT_FOUND") {
-                    toast.error(`${provider} provider is not properly configured`);
-                    form.setError("root", { 
-                        message: `${provider} login is not available. Please use email login.` 
-                    });
-                } else {
-                    form.setError("root", { 
-                        message: errorMessage || `${provider} sign-in failed` 
-                    });
+            // Try to sign in with the provider
+            try {
+                const { error: apiError } = await authClient.signIn.social({
+                    provider,
+                    callbackURL: redirect ?? "/dashboard"
+                });
+    
+                if(apiError) {
+                    // Handle specific error types
+                    const errorCode = typeof apiError === 'object' ? apiError.code : undefined;
+                    const errorMessage = typeof apiError === 'object' ? apiError.message : String(apiError);
+                    
+                    if (errorCode === "PROVIDER_NOT_FOUND") {
+                        toast.error(`${provider} provider is not properly configured`);
+                        form.setError("root", { 
+                            message: `${provider} login is not available. Please use email login.` 
+                        });
+                    } else {
+                        toast.error(`${provider} sign-in failed`);
+                        form.setError("root", { 
+                            message: errorMessage || `${provider} sign-in failed` 
+                        });
+                    }
                 }
+            } catch (socialError) {
+                toast.error(`${provider} authentication error`);
+                form.setError("root", { 
+                    message: `${provider} authentication failed. Please try again later.` 
+                });
             }
         } catch (unexpectedError) {
+            toast.error(`Could not connect to authentication service`);
             form.setError("root", { 
                 message: `${provider} sign-in error. Please try again or use email login.` 
             });
