@@ -15,13 +15,46 @@ export const POST = async (req: Request) => {
     
     // Check if this is a social login request
     if (req.url.includes("/sign-in/social")) {
-      // For social login, extract and log provider info
-      const body = await req.clone().json().catch(() => ({}));
-      console.log("Social login attempt:", { 
-        provider: body?.provider,
-        hasClientId: !!process.env[`${body?.provider?.toUpperCase()}_CLIENT_ID`],
-        hasClientSecret: !!process.env[`${body?.provider?.toUpperCase()}_CLIENT_SECRET`]
-      });
+      try {
+        // For social login, extract and log provider info
+        const body = await req.clone().json().catch(() => ({}));
+        const provider = body?.provider?.toLowerCase();
+        
+        if (!provider) {
+          return NextResponse.json(
+            { error: "Missing provider parameter" },
+            { status: 400 }
+          );
+        }
+        
+        // Check if provider credentials are configured
+        const clientIdEnv = `${provider.toUpperCase()}_CLIENT_ID`;
+        const clientSecretEnv = `${provider.toUpperCase()}_CLIENT_SECRET`;
+        
+        const hasClientId = !!process.env[clientIdEnv];
+        const hasClientSecret = !!process.env[clientSecretEnv];
+        
+        console.log("Social login attempt:", { 
+          provider,
+          hasClientId,
+          hasClientSecret
+        });
+        
+        // If credentials are missing, return a clear error
+        if (!hasClientId || !hasClientSecret) {
+          console.error(`Missing credentials for ${provider} provider`);
+          return NextResponse.json(
+            { 
+              error: "Provider not configured",
+              code: "PROVIDER_NOT_FOUND",
+              message: `${provider} login is not properly configured on the server`
+            },
+            { status: 400 }
+          );
+        }
+      } catch (parseError) {
+        console.error("Error parsing social login request:", parseError);
+      }
     }
     
     return await handler.POST(req);

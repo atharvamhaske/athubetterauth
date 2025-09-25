@@ -196,6 +196,7 @@ export default function SignInForm() {
                     <Link
                       href="/forgot-password"
                       className="ml-auto inline-block text-sm underline"
+                      prefetch={true}
                     >
                       Forgot your password?
                     </Link>
