@@ -97,7 +97,6 @@ export default function SignInForm() {
     async function handleSocialSignIn(provider: "google" | "github") {
         form.clearErrors();
         
-        // Set loading state only for the specific provider button
         setSocialLoading(prev => ({
           ...prev,
           [provider]: true
@@ -105,6 +104,7 @@ export default function SignInForm() {
         
         try {
             const response = await fetch("/api/auth/providers");
+            console.log(response)
             const availableProviders = await response.json();
             
             if (!availableProviders.includes(provider)) {
@@ -121,6 +121,7 @@ export default function SignInForm() {
             });
 
             if(apiError) {
+                console.log(apiError)
                 console.error(`${provider} sign-in error:`, 
                   typeof apiError === 'object' ? apiError : { message: String(apiError) }
                 );
