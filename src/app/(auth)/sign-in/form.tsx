@@ -104,7 +104,6 @@ export default function SignInForm() {
         
         try {
             const response = await fetch("/api/auth/providers");
-            console.log(response)
             const availableProviders = await response.json();
             
             if (!availableProviders.includes(provider)) {
@@ -121,12 +120,8 @@ export default function SignInForm() {
             });
 
             if(apiError) {
-                console.log(apiError)
-                console.error(`${provider} sign-in error:`, 
-                  typeof apiError === 'object' ? apiError : { message: String(apiError) }
-                );
                 
-                // Check if apiError is an object with a code property
+              
                 const errorCode = apiError && typeof apiError === 'object' && apiError.code;
                 const errorMessage = apiError && typeof apiError === 'object' && apiError.message;
                 
@@ -142,7 +137,6 @@ export default function SignInForm() {
                 }
             }
         } catch (unexpectedError) {
-            console.error(`${provider} sign-in request failed:`, unexpectedError);
             form.setError("root", { 
                 message: `${provider} sign-in error. Please try again or use email login.` 
             });
