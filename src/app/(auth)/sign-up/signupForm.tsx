@@ -70,8 +70,8 @@ export default function SignUpForm() {
 
             if (apiError) {
                 form.setError("root", {
-                    message: apiError.message ||
-                        "Sign up failed"
+                    message: apiError.message
+                        
                 });
                 return;
             }
