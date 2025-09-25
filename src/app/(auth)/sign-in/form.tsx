@@ -120,7 +120,6 @@ export default function SignInForm() {
             });
 
             if(apiError) {
-                
               
                 const errorCode = apiError && typeof apiError === 'object' && apiError.code;
                 const errorMessage = apiError && typeof apiError === 'object' && apiError.message;
