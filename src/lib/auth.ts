@@ -20,7 +20,7 @@ export const auth = betterAuth({
       // Use consistent redirectURI format
       redirectURI: process.env.NODE_ENV === "production" 
         ? `${process.env.BETTER_AUTH_URL || ""}/api/auth/callback/google`
-        : "http://localhost:3000/api/auth/callback/google",
+        : "https://athubetterauth.vercel.app/api/auth/callback/google",
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID || "",
