@@ -1,0 +1,10 @@
+README.md
+.env
+.env.local
+.env.development
+.env.example
+.git
+.gitignore
+.github
+.vscode
+node_modules
