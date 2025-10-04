@@ -19,7 +19,7 @@ export const auth = betterAuth({
       enabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
       // Use consistent redirectURI format
       redirectURI: process.env.NODE_ENV === "production" 
-        ? `${process.env.NEXTAUTH_URL || ""}/api/auth/callback/google`
+        ? `${process.env.BETTER_AUTH_URL || ""}/api/auth/callback/google`
         : "http://localhost:3000/api/auth/callback/google",
     },
     github: {
@@ -28,7 +28,7 @@ export const auth = betterAuth({
       enabled: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
       // Use consistent redirectURI format
       redirectURI: process.env.NODE_ENV === "production"
-        ? `${process.env.NEXTAUTH_URL || ""}/api/auth/callback/github`
+        ? `${process.env.BETTER_AUTH_URL || ""}/api/auth/callback/github`
         : "http://localhost:3000/api/auth/callback/github",
     }
   },
